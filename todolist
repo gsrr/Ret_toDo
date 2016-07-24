@@ -1,0 +1,19 @@
+[11:12:21 PM] Chien Kuo: TODO app
+[11:12:27 PM] Chien Kuo: 1. postgresql database
+[11:12:53 PM] Chien Kuo: 2. Flask Restful API
+[11:12:54 PM] jerrycheng0119: do you know pgcli?
+[11:13:04 PM] Chien Kuo: 3. Angular 2
+[11:14:35 PM] Chien Kuo: Feature:
+
+1. Create a task with name, category, deadline
+
+2. Show a list of tasks
+[11:14:45 PM] Chien Kuo: 3. Order by deadline, name, category
+[11:14:53 PM] Chien Kuo: 4. Click to finish a task
+[11:20:40 PM] jerrycheng0119: http://jerrywebtest.parseapp.com/#
+[11:22:47 PM] jerrycheng0119: http://wm.csie.ntu.edu.tw/~jerryc/Case-Fb_upload_phtot/fb_upload/
+[11:25:54 PM] Chien Kuo: python sqlalchemy
+[11:26:09 PM] Chien Kuo: data model for the TODO app
+[11:28:10 PM] jerrycheng0119: 8/5
+[11:28:26 PM] jerrycheng0119: 9:30 pm?
+
