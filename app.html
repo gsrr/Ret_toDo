@@ -1,13 +1,35 @@
-<div id="taskList">
-<table>
-<thead>
-<tr>
-<td *ngFor="#col of columns">
-{{ col.name }}
-</td>
-</tr>
-</thead>
+<style>
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	  background-color: #333;
+}
+
+table {
+	border-collapse: collapse;
+width: 100%;
+}
+</style>
+<ul>
+	<li *ngFor="#op of ops">
+	<a class="{{ op.class }}" href="#{{ op.id }}" (click)="opstart()"> {{ op.name }} </a>
+	</li>
+</ul>
+<table style="margin-top: 10px;">
+	<tr>
+		<th *ngFor="#col of columns">
+		{{ col.name }}
+		</th>
+	</tr>
+	<tr *ngFor="#t of tasks">
+		<td>{{ t.name }}</td>
+		<td>{{ t.cate }}</td>
+		<td>{{ t.dead }}</td>
+	</tr>
 </table>
+<!---
 <h1>{{title}}</h1>
 <h2>My favorite hero is: {{myHero.name}}</h2>
 <p>Heroes:</p>
@@ -20,14 +42,15 @@
 <button type="button" (click)="createTask()">Create</button>
 </div>
 <div id="createTask">
-	<div class="container">
-	<h1>Create Task</h1>
-	<label for="name">Name</label>
-	<input id="tname" type="text" class="form-control" required>
-	<label for="cate">Category</label>
-	<input id="tcate" type="text" class="form-control">
-	<label for="deadline">Deadline</label>
-	<input id="tdl" type="text" class="form-control">
-	<button type="button" class="btn btn-default" (click)="createSubmit()">Submit</button>
-	</div>
+<div class="container">
+<h1>Create Task</h1>
+<label for="name">Name</label>
+<input id="tname" type="text" class="form-control" required>
+<label for="cate">Category</label>
+<input id="tcate" type="text" class="form-control">
+<label for="deadline">Deadline</label>
+<input id="tdl" type="text" class="form-control">
+<button type="button" class="btn btn-default" (click)="createSubmit()">Submit</button>
 </div>
+</div>
+-->
