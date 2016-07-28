@@ -24,9 +24,13 @@ width: 100%;
 		</th>
 	</tr>
 	<tr *ngFor="#t of tasks">
+		<td>{{ t.id }}</td>
 		<td>{{ t.name }}</td>
 		<td>{{ t.cate }}</td>
 		<td>{{ t.dead }}</td>
+		<td>{{ t.remain }}</td>
+		<td>{{ t.progress }}</td>
+		<td myHighlight>{{ t.result }}</td>
 	</tr>
 </table>
 <!---
