@@ -28,13 +28,31 @@ export class HighlightDirective {
 		  {
 		  	$elem.html("unComplete");
 		  }
-		  console.log(this.getHeroes());
+		  this.getMethod();
+		  this.postMethod();
 	}
 
 	private highlight(color: string) {
 		this.el.style.backgroundColor = color;
 	}
 
+	postMethod() {
+		console.log("post Heros");
+		this.heroService.postMethod().subscribe(
+			suc => {console.log("post suc"); console.log(suc)}, 
+			err => console.log("post err"), 
+			fin => console.log("post fin")
+		);
+	}
+
+	getMethod() {
+		console.log("get Heros");
+		this.heroService.getMethod().subscribe(
+			suc => {console.log("get suc"); console.log(suc)}, 
+			err => console.log("get err"), 
+			fin => console.log("get fin")
+		);
+	}
 	getHeroes() {
 		console.log("get Heros");
 		this.heroService.getHeroes().subscribe(
