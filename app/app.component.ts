@@ -1,7 +1,12 @@
 import { Component } from 'angular2/core';
 import { Hero } from './hero';
 import { Column } from './column';
+import { HeroService } from './hero.services';
 import { HighlightDirective } from './highlight.directive';
+import { HTTP_PROVIDERS } from 'angular2/http';
+import { JSONP_PROVIDERS }  from 'angular2/http';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 export class OP {
 	id: string;
@@ -33,6 +38,7 @@ const TASKS: TASK[] = [
 	selector : 'my-app',
 	templateUrl : 'app.html',
 	directives: [HighlightDirective],
+	providers: [JSONP_PROVIDERS, HTTP_PROVIDERS, HeroService]
 })
 export class AppComponent {
 	title = 'Tour of Tasks';
