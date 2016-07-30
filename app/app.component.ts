@@ -46,26 +46,37 @@ export class AppComponent {
 	tasks = TASKS;
 
 	columns = [
-		new Column("ID", ''),
-		new Column("Name", 'Name of task'),
+			new Column("ID", ''),
+			new Column("Name", 'Name of task'),
 			new Column("Category", 'Category of task'),
 			new Column("Deadline", 'Deadline of task'),
 			new Column("Remaining days", ''),
 			new Column("Progress", ''),
 			new Column("Result", ''),
-			];
+	];
 
 	createTask() { 
 			this.heroes.push(new Hero(100,'First Name'));
 			$("#taskList").hide();
 			$("#createTask").show();
 	}
-	createSubmit(){
-		console.log($("#tname").val());
-		console.log("Call Python\n")
+
+	op_Create(){
+		console.log("op_create");
+		$("#task_list").hide();	
+		$("#task_create").show();
+	}
+
+	opstart(event){
+		var target = event.target;
+		var id = target.attributes.id;
+		if(id.value == "op_Create")
+		{
+			this.op_Create();	
+		}
 	}
 	constructor(){
-		$("#createTask").hide();
+		$("#task_create").hide();	
 	}
 
 }

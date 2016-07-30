@@ -67,16 +67,24 @@ System.register(['angular2/core', './hero', './column', './hero.services', './hi
                         new column_1.Column("Progress", ''),
                         new column_1.Column("Result", ''),
                     ];
-                    $("#createTask").hide();
+                    $("#task_create").hide();
                 }
                 AppComponent.prototype.createTask = function () {
                     this.heroes.push(new hero_1.Hero(100, 'First Name'));
                     $("#taskList").hide();
                     $("#createTask").show();
                 };
-                AppComponent.prototype.createSubmit = function () {
-                    console.log($("#tname").val());
-                    console.log("Call Python\n");
+                AppComponent.prototype.op_Create = function () {
+                    console.log("op_create");
+                    $("#task_list").hide();
+                    $("#task_create").show();
+                };
+                AppComponent.prototype.opstart = function (event) {
+                    var target = event.target;
+                    var id = target.attributes.id;
+                    if (id.value == "op_Create") {
+                        this.op_Create();
+                    }
                 };
                 AppComponent = __decorate([
                     core_1.Component({
