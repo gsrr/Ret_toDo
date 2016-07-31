@@ -35,14 +35,14 @@ width: 100%;
 	</table>
 </div>
 <div id="task_create" class="container">
-	 <form role="form">
+	 <form role="form" #f="ngForm" (ngSubmit)="submitCreate(f.value)">
 	 <div class="form-group">
 		<label for="name">Name</label>
-		<input id="tname" type="text" class="form-control" required>
+		<input type="text" class="form-control" ngControl="tname" required>
 	</div>
 	 <div class="form-group">
 		  <label for="category">Category</label>
-		  <select class="form-control" id="category">
+		  <select class="form-control" ngControl="category" required>
 			  <option>Work</option>
 			  <option>Family</option>
 			  <option>Personal</option>
@@ -50,19 +50,19 @@ width: 100%;
 	</div>
 	 <div class="form-group">
 		  <label for="deadline">Deadline</label>
-		  <input type="date" class="form-control">
+		  <input type="date" class="form-control" ngControl="tdeadline" required>
 	</div>
 	 <div class="form-group">
 		  <label for="remaining">Remaining Days</label>
-		  <input type="text" class="form-control" disabled="disabled">
+		  <input type="text" class="form-control" disabled="disabled" value="1">
 	</div>
 	 <div class="form-group">
-		  <label for="progress">Progress</label>
+		  <label for="tprogress">Progress</label>
 		  <input type="text" class="form-control" value="0" disabled="disabled">
 	</div>
 	 <div class="form-group">
-		  <label for="result">Result</label>
-		  <input type="text" class="form-control" value="Not Finish" disabled="disabled">
+		  <label for="tresult">Result</label>
+		  <input class="form-control" type="text" value="Not Finish" disabled="disabled">
 	</div>
 	<button type="submit" class="btn btn-default">Submit</button>
 	</form>

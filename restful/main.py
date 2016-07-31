@@ -30,7 +30,12 @@ class HelloWorld(Resource):
 	def post(self):
 		print "post"
 		parser = reqparse.RequestParser()
-		parser.add_argument('aaa')
+		parser.add_argument('tname')
+		parser.add_argument('category')
+		parser.add_argument('tdeadline')
+		parser.add_argument('tremain')
+		parser.add_argument('tprogress')
+		parser.add_argument('tresult')
 		args = parser.parse_args()
 		print args
 		resp = make_response(json.dumps({'Hello' : 'World'}))

@@ -16,7 +16,7 @@ export class HeroService {
 		return this.http.get(this.heroesUrl).map(res => res.json());
 	}
 
-	postMethod () {
+	postMethod (data) {
 		this.headers = new Headers();
 		this.headers.append("Content-Type", 'application/json');
 		/*this.headers.append("Authorization", 'Bearer ' + localStorage.getItem('id_token'))*/

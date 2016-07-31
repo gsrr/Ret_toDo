@@ -1,4 +1,4 @@
-System.register(['angular2/core', './hero', './column', './hero.services', './highlight.directive', 'angular2/http'], function(exports_1, context_1) {
+System.register(['angular2/core', './hero', './column', './http.services', './hero.services', './highlight.directive', 'angular2/http'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './hero', './column', './hero.services', './hi
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, hero_1, column_1, hero_services_1, highlight_directive_1, http_1, http_2;
+    var core_1, hero_1, column_1, http_services_1, hero_services_1, highlight_directive_1, http_1, http_2;
     var OP, TASK, OPS, TASKS, AppComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['angular2/core', './hero', './column', './hero.services', './hi
             },
             function (column_1_1) {
                 column_1 = column_1_1;
+            },
+            function (http_services_1_1) {
+                http_services_1 = http_services_1_1;
             },
             function (hero_services_1_1) {
                 hero_services_1 = hero_services_1_1;
@@ -54,7 +57,8 @@ System.register(['angular2/core', './hero', './column', './hero.services', './hi
                 { id: "001", name: "task1", cate: "t1", dead: "20160805", remain: 7, progress: 0, result: "unComplete" }
             ];
             AppComponent = (function () {
-                function AppComponent() {
+                function AppComponent(httpMethod) {
+                    this.httpMethod = httpMethod;
                     this.title = 'Tour of Tasks';
                     this.ops = OPS;
                     this.tasks = TASKS;
@@ -86,14 +90,22 @@ System.register(['angular2/core', './hero', './column', './hero.services', './hi
                         this.op_Create();
                     }
                 };
+                AppComponent.prototype.submitCreate = function (form) {
+                    form['tremain'] = 1;
+                    form['tprogress'] = 0;
+                    form['tresult'] = "Not_Finish";
+                    var url = "http://127.0.0.1:5000/";
+                    console.log("form:", form);
+                    this.httpMethod.postMethod(url, form).subscribe(function (suc) { console.log("post suc"); console.log(suc); }, function (err) { return console.log("post err"); }, function (fin) { return console.log("post fin"); });
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app',
                         templateUrl: 'app.html',
                         directives: [highlight_directive_1.HighlightDirective],
-                        providers: [http_2.JSONP_PROVIDERS, http_1.HTTP_PROVIDERS, hero_services_1.HeroService]
+                        providers: [http_2.JSONP_PROVIDERS, http_1.HTTP_PROVIDERS, http_services_1.HttpService, hero_services_1.HeroService]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [http_services_1.HttpService])
                 ], AppComponent);
                 return AppComponent;
             }());
