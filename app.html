@@ -29,7 +29,7 @@ width: 100%;
 				<td>{{ t.dead }}</td>
 				<td>{{ t.remain }}</td>
 				<td>{{ t.progress }}</td>
-				<td myHighlight>{{ t.result }}</td>
+				<td myHighlight>{{ t.status }}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -38,7 +38,7 @@ width: 100%;
 	 <form role="form" #f="ngForm" (ngSubmit)="submitCreate(f.value)">
 	 <div class="form-group">
 		<label for="name">Name</label>
-		<input type="text" class="form-control" ngControl="tname" required>
+		<input type="text" class="form-control" ngControl="name" required>
 	</div>
 	 <div class="form-group">
 		  <label for="category">Category</label>
@@ -50,7 +50,7 @@ width: 100%;
 	</div>
 	 <div class="form-group">
 		  <label for="deadline">Deadline</label>
-		  <input type="date" class="form-control" ngControl="tdeadline" required>
+		  <input type="date" class="form-control" ngControl="deadline" required>
 	</div>
 	 <div class="form-group">
 		  <label for="remaining">Remaining Days</label>

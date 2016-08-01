@@ -54,7 +54,7 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                 { id: "create", name: "Create", class: "", func: "create" }
             ];
             TASKS = [
-                { id: "001", name: "task1", cate: "t1", dead: "20160805", remain: 7, progress: 0, result: "unComplete" }
+                { id: "001", name: "task1", cate: "t1", dead: "20160805", remain: 7, progress: 0, status: "unComplete" }
             ];
             AppComponent = (function () {
                 function AppComponent(httpMethod) {
@@ -69,9 +69,10 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                         new column_1.Column("Deadline", 'Deadline of task'),
                         new column_1.Column("Remaining days", ''),
                         new column_1.Column("Progress", ''),
-                        new column_1.Column("Result", ''),
+                        new column_1.Column("Status", ''),
                     ];
                     $("#task_create").hide();
+                    this.op_List();
                 }
                 AppComponent.prototype.createTask = function () {
                     this.heroes.push(new hero_1.Hero(100, 'First Name'));
@@ -83,20 +84,54 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                     $("#task_list").hide();
                     $("#task_create").show();
                 };
+                AppComponent.prototype.op_List = function () {
+                    var _this = this;
+                    console.log(this.tasks);
+                    var url = "http://127.0.0.1:5000/list";
+                    this.httpMethod.postMethod(url, {}).subscribe(function (suc) {
+                        console.log("post suc");
+                        console.log(suc);
+                        for (var i = 0; i < suc['data'].length; i++) {
+                            var data = suc['data'][i];
+                            console.log(data);
+                            var task = {
+                                'id': "002",
+                                'name': data[0],
+                                'cate': data[1],
+                                'dead': data[2],
+                                'remain': data[3],
+                                'progress': data[4],
+                                'status': data[5],
+                            };
+                            console.log(task);
+                            var tt = new TASK("002", data[0], data[1], data[2], data[3], data[4], data[5]);
+                            console.log(tt);
+                            _this.tasks.push(task);
+                            console.log(_this.tasks);
+                        }
+                    }, function (err) { return console.log("post err"); }, function (fin) { return console.log("post fin"); });
+                };
                 AppComponent.prototype.opstart = function (event) {
                     var target = event.target;
                     var id = target.attributes.id;
                     if (id.value == "op_Create") {
                         this.op_Create();
                     }
+                    else if (id.value == "op_List") {
+                        this.op_List();
+                    }
                 };
                 AppComponent.prototype.submitCreate = function (form) {
-                    form['tremain'] = 1;
-                    form['tprogress'] = 0;
-                    form['tresult'] = "Not_Finish";
-                    var url = "http://127.0.0.1:5000/";
+                    form['remain'] = 1;
+                    form['progress'] = 0;
+                    form['status'] = "Not_Finish";
+                    var url = "http://127.0.0.1:5000/create";
                     console.log("form:", form);
-                    this.httpMethod.postMethod(url, form).subscribe(function (suc) { console.log("post suc"); console.log(suc); }, function (err) { return console.log("post err"); }, function (fin) { return console.log("post fin"); });
+                    this.httpMethod.postMethod(url, form).subscribe(function (suc) {
+                        console.log("post suc");
+                        console.log(suc);
+                        window.location.href = "./index.html";
+                    }, function (err) { return console.log("post err"); }, function (fin) { return console.log("post fin"); });
                 };
                 AppComponent = __decorate([
                     core_1.Component({

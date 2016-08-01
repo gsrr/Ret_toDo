@@ -1,0 +1,51 @@
+
+PostgreSQL資料庫中pg_hba.conf檔的使用是本文我們主要要介紹的內容，因為最近試用PostgreSQL 9.04，將pg_hba.conf配置的一些心得分享。pg_hba.conf是用戶端認證設定檔，定義如何認證用戶端。
+
+常用的pg_hba.conf配置：
+
+# TYPE DATABASE USER CIDR-ADDRESS METHOD # "local" is for Unix domain socket connections only local all all ident # IPv4 local connections: host all all 127.0.0.1/32 md5 # IPv6 local connections: host all all ::1/128 md5 TYPE定義了多種連接PostgreSQL的方式，分別是：「local」使用本地unix通訊端，「host」使用TCP/IP連接（包括SSL和非SSL），「host」結合「IPv4位址」使用IPv4方式，結合「IPv6位址」則使用IPv6方式，「hostssl」只能使用SSL TCP/IP連接，「hostnossl」不能使用SSL TCP/IP連接。
+
+DATABASE指定哪個資料庫，多個資料庫，庫名間以逗號分隔。「all」只有在沒有其他的符合條目時才代表「所有」，如果有其他的符合條目則代表「除了該條之外的」，因為「all」的優先順序最低。如下例：
+
+local db1 user1 reject local all all ident 這兩條都是指定local訪問方式，因為前一條指定了特定的資料庫db1，所以後一條的all代表的是除了db1之外的資料庫，同理使用者的all也是這個道理。
+
+USER指定哪個資料庫使用者（PostgreSQL正規的叫法是角色，role）。多個使用者以逗號分隔。
+
+CIDR-ADDRESS項local方式不必填寫，該項可以是IPv4位址或IPv6位址，可以定義某台主機或某個網段。
+
+METHOD指定如何處理用戶端的認證。常用的有ident，md5，password，trust，reject。
+
+ident是Linux下PostgreSQL預設的local認證方式，凡是能正確登錄伺服器的作業系統使用者（注：不是資料庫使用者）就能使用本使用者映射的資料庫使用者不需密碼登錄資料庫。使用者映射檔為pg_ident.conf，這個檔記錄著與作業系統使用者匹配的資料庫使用者，如果某作業系統使用者在本檔中沒有映射使用者，則預設的映射資料庫使用者與作業系統使用者同名。比如，伺服器上有名為user1的作業系統使用者，同時資料庫上也有同名的資料庫使用者，user1登錄作業系統後可以直接輸入psql，以user1資料庫使用者身份登錄資料庫且不需密碼。
+
+很多初學者都會遇到psql -U username登錄資料庫卻出現「username ident 認證失敗」的錯誤，明明資料庫使用者已經createuser。原因就在於此，使用了ident認證方式，卻沒有同名的作業系統使用者或沒有相應的映射使用者。解決方案：1、在pg_ident.conf中添加映射使用者；2、改變認證方式。
+
+md5是常用的密碼認證方式，如果你不使用ident，最好使用md5。密碼是以md5形式傳送給資料庫，較安全，且不需建立同名的作業系統使用者。
+
+password是以純文字密碼傳送給資料庫，建議不要在生產環境中使用。
+
+trust是只要知道資料庫使用者名就不需要密碼或ident就能登錄，建議不要在生產環境中使用。reject是拒絕認證。
+
+本地使用psql登錄資料庫，是以unix通訊端的方式，附合local方式。
+
+使用PGAdmin3或php登錄資料庫，不論是否本地均是以TCP/IP方式，附合host方式。如果是本地（資料庫位址localhost），CIDR-ADDRESS則為127.0.0.1/32。
+
+例如：
+
+1、允許本地使用PGAdmin3登錄資料庫，資料庫位址localhost，使用者user1，資料庫user1db：
+
+
+host user1db user1 127.0.0.1/32 md5
+2、允許10.1.1.0~10.1.1.255網段登錄資料庫：
+
+
+host all all 10.1.1.0/24 md5
+3、信任192.168.1.10登錄資料庫：
+
+
+host all all 192.168.1.10/32 trust
+pg_hba.conf修改後，使用pg_ctl reload重新讀取pg_hba.conf檔，如果pg_ctl找不到資料庫，則用-D /.../pgsql/data/　指定資料庫目錄，或export PGDATA=/.../pgsql/data/　導入環境變數。
+
+需要注意的是：PostgreSQL預設只監聽本地埠，用netstat -tuln只會看到「tcp 127.0.0.1:5432 LISTEN」。修改postgresql.conf中的listen_address=*，監聽所有埠，這樣遠端才能通過TCP/IP登錄資料庫，用netstat -tuln會看到「tcp 0.0.0.0:5432 LISTEN」。
+
+關於PostgreSQL資料庫中pg_hba.conf檔的使用的相關知識就介紹到這裡了，希望本次的介紹能夠對您有所收穫！
+

@@ -24,7 +24,7 @@ export class TASK {
 	dead : string;
 	remain : number;
 	progress : number;
-	result : string;
+	status : string;
 }
 
 const OPS: OP[] = [
@@ -33,7 +33,7 @@ const OPS: OP[] = [
 ];
 
 const TASKS: TASK[] = [
-	{id : "001", name: "task1", cate: "t1", dead: "20160805", remain: 7, progress : 0, result : "unComplete"}
+	{id : "001", name: "task1", cate: "t1", dead: "20160805", remain: 7, progress : 0, status : "unComplete"}
 ];
 
 @Component({
@@ -54,7 +54,7 @@ export class AppComponent {
 			new Column("Deadline", 'Deadline of task'),
 			new Column("Remaining days", ''),
 			new Column("Progress", ''),
-			new Column("Result", ''),
+			new Column("Status", ''),
 	];
 
 	createTask() { 
@@ -69,6 +69,39 @@ export class AppComponent {
 		$("#task_create").show();
 	}
 
+	op_List(){
+		console.log(this.tasks);
+		var url = "http://127.0.0.1:5000/list";
+		this.httpMethod.postMethod(url, {}).subscribe(
+			suc => {
+				console.log("post suc"); 
+				console.log(suc);
+				for (var i = 0 ; i < suc['data'].length; i++)
+				{
+					var data = suc['data'][i];
+					console.log(data);
+					var task = {
+						'id' : "002",
+						'name' : data[0],
+						'cate' : data[1],
+						'dead' : data[2],
+						'remain' : data[3],
+						'progress' : data[4],
+						'status' : data[5],
+					}
+					console.log(task);
+					var tt = new TASK(
+						"002", data[0], data[1], data[2], data[3], data[4], data[5]);
+					console.log(tt);
+					this.tasks.push(task);
+					console.log(this.tasks);
+				}
+			}, 
+			err => console.log("post err"), 
+			fin => console.log("post fin")
+		);
+
+	}
 	opstart(event){
 		var target = event.target;
 		var id = target.attributes.id;
@@ -76,22 +109,31 @@ export class AppComponent {
 		{
 			this.op_Create();	
 		}
+		else if(id.value == "op_List")
+		{
+			this.op_List();
+		}
 	}
 
 	submitCreate(form: any){
-		form['tremain'] = 1;
-		form['tprogress'] = 0;
-		form['tresult'] = "Not_Finish";
-		var url = "http://127.0.0.1:5000/";
+		form['remain'] = 1;
+		form['progress'] = 0;
+		form['status'] = "Not_Finish";
+		var url = "http://127.0.0.1:5000/create";
 		console.log("form:", form);
 		this.httpMethod.postMethod(url, form).subscribe(
-			suc => {console.log("post suc"); console.log(suc)}, 
+			suc => {
+				console.log("post suc"); 
+				console.log(suc);
+				window.location.href = "./index.html";
+			}, 
 			err => console.log("post err"), 
 			fin => console.log("post fin")
 		);
 	}
 	constructor(private httpMethod: HttpService){
 		$("#task_create").hide();	
+		this.op_List();
 	}
 
 }
