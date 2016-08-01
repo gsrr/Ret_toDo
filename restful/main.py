@@ -42,6 +42,15 @@ def post_list():
 	resp = make_response(json.dumps(ret))
 	return resp	
 
+def post_delete():
+	ret = {'status' : 0}
+	parser = reqparse.RequestParser()
+	parser.add_argument('name')
+	args = parser.parse_args()
+	data = models.deleteData("tasks", args)
+	resp = make_response(json.dumps(ret))
+	return resp	
+
 class HelloWorld(Resource):
 	@decorH
 	def get(self, cmd):

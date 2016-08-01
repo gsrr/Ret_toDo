@@ -36,15 +36,6 @@ export class HighlightDirective {
 		this.el.style.backgroundColor = color;
 	}
 
-	postMethod() {
-		console.log("post Heros");
-		this.heroService.postMethod().subscribe(
-			suc => {console.log("post suc"); console.log(suc)}, 
-			err => console.log("post err"), 
-			fin => console.log("post fin")
-		);
-	}
-
 	getMethod() {
 		console.log("get Heros");
 		this.heroService.getMethod().subscribe(

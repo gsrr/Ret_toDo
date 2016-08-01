@@ -4,6 +4,7 @@ import { Column } from './column';
 import { HttpService } from './http.services';
 import { HeroService } from './hero.services';
 import { HighlightDirective } from './highlight.directive';
+import { RowDecorateDirective } from './rowdecorate.directive';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import { JSONP_PROVIDERS }  from 'angular2/http';
 import { Observable } from 'rxjs/Observable';
@@ -32,14 +33,12 @@ const OPS: OP[] = [
 	{id: "create", name: "Create", class: "", func: "create"}
 ];
 
-const TASKS: TASK[] = [
-	{id : "001", name: "task1", cate: "t1", dead: "20160805", remain: 7, progress : 0, status : "unComplete"}
-];
+const TASKS: TASK[] = [];
 
 @Component({
 	selector : 'my-app',
 	templateUrl : 'app.html',
-	directives: [HighlightDirective],
+	directives: [HighlightDirective, RowDecorateDirective],
 	providers: [JSONP_PROVIDERS, HTTP_PROVIDERS, HttpService, HeroService]
 })
 export class AppComponent {
@@ -48,7 +47,7 @@ export class AppComponent {
 	tasks = TASKS;
 
 	columns = [
-			new Column("ID", ''),
+			new Column("Index", ''),
 			new Column("Name", 'Name of task'),
 			new Column("Category", 'Category of task'),
 			new Column("Deadline", 'Deadline of task'),
@@ -70,7 +69,11 @@ export class AppComponent {
 	}
 
 	op_List(){
-		console.log(this.tasks);
+		function pad(num, size) {
+		    var s = num+"";
+			while (s.length < size) s = "0" + s;
+			return s;
+		}
 		var url = "http://127.0.0.1:5000/list";
 		this.httpMethod.postMethod(url, {}).subscribe(
 			suc => {
@@ -79,9 +82,8 @@ export class AppComponent {
 				for (var i = 0 ; i < suc['data'].length; i++)
 				{
 					var data = suc['data'][i];
-					console.log(data);
 					var task = {
-						'id' : "002",
+						'id' : pad(i+1, 3),
 						'name' : data[0],
 						'cate' : data[1],
 						'dead' : data[2],
@@ -89,12 +91,9 @@ export class AppComponent {
 						'progress' : data[4],
 						'status' : data[5],
 					}
-					console.log(task);
 					var tt = new TASK(
 						"002", data[0], data[1], data[2], data[3], data[4], data[5]);
-					console.log(tt);
 					this.tasks.push(task);
-					console.log(this.tasks);
 				}
 			}, 
 			err => console.log("post err"), 

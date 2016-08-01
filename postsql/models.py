@@ -69,6 +69,16 @@ def insertData(tb, paras):
 	else:
 		return {'status' : INSERTERROR}
 	
+def deleteData(tb, paras):
+	con, meta = connect("postgres", "postgres", "jerry")
+	table = meta.tables[tb]
+	clause = table.delete().where(table.c.name == paras['name'])
+	ret = con.execute(clause)
+	return {'status' : 0}
+
+def test_deleteData(args):
+	print deleteData("tasks", {'name' : args[0]})
+
 def test_createDB(args):
 	con, meta = connect("postgres", "postgres", "")
 	db = args[0]
