@@ -22,14 +22,13 @@ width: 100%;
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="#t of tasks" id="{{ t.name }}" rowDecorate>
+			<tr *ngFor="#t of tasks">
 				<td>{{ t.id }}</td>
-				<td>{{ t.name }}</td>
+				<td id="{{ t.name }}"rowDecorate>{{ t.name }}</td>
 				<td>{{ t.cate }}</td>
 				<td>{{ t.dead }}</td>
-				<td>{{ t.remain }}</td>
-				<td>{{ t.progress }}</td>
-				<td>{{ t.status }}</td>
+				<td id="comment_{{ t.name }}"myHighlight>Comment</td>
+				<td id="result_{{ t.name }}"myHighlight>Result</td>
 			</tr>
 		</tbody>
 	</table>
@@ -44,27 +43,14 @@ width: 100%;
 		  <label for="category">Category</label>
 		  <select class="form-control" ngControl="category" required>
 			  <option></option>
-			  <option>Corporate</option>
-			  <option>Personal</option>
+			  <option>Bug</option>
+			  <option>Feature</option>
 		  </select>
 	</div>
 	 <div class="form-group">
-		  <label for="deadline">Deadline</label>
+		  <label for="deadline">Deadline(YYYY/MM/DD)</label>
 		  <input type="text" class="form-control" ngControl="deadline" required>
-	</div>
-	 <div class="form-group">
-		  <label for="remaining">Remaining Days</label>
-		  <input type="text" class="form-control" disabled="disabled" value="1">
-	</div>
-	 <div class="form-group">
-		  <label for="progress">Progress</label>
-		  <input type="text" class="form-control" value="0" disabled="disabled">
-	</div>
-	 <div class="form-group">
-		  <label for="status">Status</label>
-		  <input class="form-control" type="text" value="Not Finish" disabled="disabled">
 	</div>
 	<button type="submit" class="btn btn-default">Submit</button>
 	</form>
 </div>
-

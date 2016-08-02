@@ -68,9 +68,8 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                         new column_1.Column("Name", 'Name of task'),
                         new column_1.Column("Category", 'Category of task'),
                         new column_1.Column("Deadline", 'Deadline of task'),
-                        new column_1.Column("Remaining days", ''),
-                        new column_1.Column("Progress", ''),
-                        new column_1.Column("Status", ''),
+                        new column_1.Column("Comment", ''),
+                        new column_1.Column("Result", ''),
                     ];
                     $("#task_create").hide();
                     this.op_List();
@@ -104,11 +103,8 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                                 'name': data[0],
                                 'cate': data[1],
                                 'dead': data[2],
-                                'remain': data[3],
-                                'progress': data[4],
-                                'status': data[5],
                             };
-                            var tt = new TASK("002", data[0], data[1], data[2], data[3], data[4], data[5]);
+                            var tt = new TASK("002", data[0], data[1], data[2]);
                             _this.tasks.push(task);
                         }
                     }, function (err) { return console.log("post err"); }, function (fin) { return console.log("post fin"); });
@@ -124,9 +120,6 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                     }
                 };
                 AppComponent.prototype.submitCreate = function (form) {
-                    form['remain'] = 1;
-                    form['progress'] = 0;
-                    form['status'] = "Not_Finish";
                     var url = "http://127.0.0.1:5000/create";
                     console.log("form:", form);
                     this.httpMethod.postMethod(url, form).subscribe(function (suc) {

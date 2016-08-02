@@ -24,9 +24,6 @@ def createTable(con, meta, paras):
 		Column('name', sqlalchemy.String, primary_key=True),
 		Column('category', sqlalchemy.String, primary_key=False),
 		Column('deadline', sqlalchemy.String, primary_key=False),
-		Column('remainDays', sqlalchemy.Integer, primary_key=False),
-		Column('progress', sqlalchemy.Integer, primary_key=False),
-		Column('status', sqlalchemy.String, primary_key=False),
 	]
 
 	tasks = Table(tbname, meta, *(col for col in columns))

@@ -18,18 +18,7 @@ export class HighlightDirective {
 	}
 
 	@HostListener('click', ['$event.target'])onClick(btn) {
-	      console.log("button", btn, "number of clicks:", this.numberOfClicks++);
-		  var $elem = $(btn);
-		  if($elem.html() == "unComplete")
-		  {
-		  	$elem.html("Complete");
-		  }
-		  else
-		  {
-		  	$elem.html("unComplete");
-		  }
-		  this.getMethod();
-		  this.postMethod();
+		console.log(this.el.id);
 	}
 
 	private highlight(color: string) {
