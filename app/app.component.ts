@@ -123,8 +123,24 @@ export class AppComponent {
 			fin => console.log("post fin")
 		);
 	}
+
+	submitComment(form: any){
+		var url = "http://127.0.0.1:5000/comment";
+		console.log("form:", form);
+		this.httpMethod.postMethod(url, form).subscribe(
+			suc => {
+				console.log("post suc"); 
+				console.log(suc);
+				window.location.href = "./index.html";
+			}, 
+			err => console.log("post err"), 
+			fin => console.log("post fin")
+		);
+	}
 	constructor(private httpMethod: HttpService){
 		$("#task_create").hide();	
+		$("#task_comment").hide();	
+		$("#task_result").hide();	
 		this.op_List();
 	}
 

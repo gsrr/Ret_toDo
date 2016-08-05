@@ -32,6 +32,12 @@ def post_create():
 	resp = make_response(json.dumps(ret))
 	return resp	
 	
+def post_comment():
+	pass
+
+def post_result():
+	pass
+
 def post_list():
 	ret = {'status' : 0}
 	data = models.listData("tasks")['data']

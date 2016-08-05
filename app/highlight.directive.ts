@@ -18,27 +18,33 @@ export class HighlightDirective {
 	}
 
 	@HostListener('click', ['$event.target'])onClick(btn) {
-		console.log(this.el.id);
+		var items = this.el.id.split("_")
+		var op = items[0];
+		var task = items[1];
+		if(op == "comment")
+		{
+			this.comment(task);
+		}
+		else if(op == "result")
+		{
+			this.result(task);
+		}
+	}
+	
+	private comment(task:string){
+		console.log("comment:", task);
+		$("#task_list").hide();
+		$("#task_comment").show();
+		$("#name_cmt").val(task);
+
 	}
 
+	private result(task:string){
+		console.log("result");
+		$("#task_list").hide();
+		$("#task_result").show();
+	}
 	private highlight(color: string) {
 		this.el.style.backgroundColor = color;
-	}
-
-	getMethod() {
-		console.log("get Heros");
-		this.heroService.getMethod().subscribe(
-			suc => {console.log("get suc"); console.log(suc)}, 
-			err => console.log("get err"), 
-			fin => console.log("get fin")
-		);
-	}
-	getHeroes() {
-		console.log("get Heros");
-		this.heroService.getHeroes().subscribe(
-			suc => {console.log("suc"); console.log(suc)}, 
-			err => console.log("err"), 
-			fin => console.log("fin")
-		);
 	}
 }

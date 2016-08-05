@@ -72,6 +72,8 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                         new column_1.Column("Result", ''),
                     ];
                     $("#task_create").hide();
+                    $("#task_comment").hide();
+                    $("#task_result").hide();
                     this.op_List();
                 }
                 AppComponent.prototype.createTask = function () {
@@ -121,6 +123,15 @@ System.register(['angular2/core', './hero', './column', './http.services', './he
                 };
                 AppComponent.prototype.submitCreate = function (form) {
                     var url = "http://127.0.0.1:5000/create";
+                    console.log("form:", form);
+                    this.httpMethod.postMethod(url, form).subscribe(function (suc) {
+                        console.log("post suc");
+                        console.log(suc);
+                        window.location.href = "./index.html";
+                    }, function (err) { return console.log("post err"); }, function (fin) { return console.log("post fin"); });
+                };
+                AppComponent.prototype.submitComment = function (form) {
+                    var url = "http://127.0.0.1:5000/comment";
                     console.log("form:", form);
                     this.httpMethod.postMethod(url, form).subscribe(function (suc) {
                         console.log("post suc");
